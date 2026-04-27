@@ -1,5 +1,6 @@
 package com.daw_project;
 
+import com.daw_project.Panels.ProjectPanel;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,8 +17,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        Label label = new Label("Gestión de Proyectos");
-        var scene = new Scene(new StackPane(label), 420, 380);
+        ProjectPanel pMain = new ProjectPanel();
+        var scene = new Scene(pMain, 420, 380);
         stage.setScene(scene);
         stage.show();
     }
