@@ -1,19 +1,22 @@
+package com.daw_project.Model;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import com.daw_project.utils.Db; // Importamos tu clase de conexión
 
 public class UserDAO {
 
-    private Connection connection;
-
-    public UserDAO(Connection connection) {
-        this.connection = connection;
+    // 1. Eliminamos el constructor que causaba el error de 'void'
+    public UserDAO() {
+        Db.conectar(); // Solo aseguramos que la conexión esté activa
     }
 
     // CREATE
     public boolean insert(UserDO user) throws SQLException {
         String sql = "INSERT INTO User (name_tag, name, mail, pass) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        // 2. Usamos Db.connection (con mayúscula y llamando a la clase Db)
+        try (PreparedStatement stmt = Db.connection.prepareStatement(sql)) {
             stmt.setString(1, user.getNameTag());
             stmt.setString(2, user.getName());
             stmt.setString(3, user.getMail());
@@ -25,7 +28,8 @@ public class UserDAO {
     // READ - by ID
     public UserDO findById(int idU) throws SQLException {
         String sql = "SELECT * FROM User WHERE id_U = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        // Cambiado 'connection' por 'Db.connection'
+        try (PreparedStatement stmt = Db.connection.prepareStatement(sql)) {
             stmt.setInt(1, idU);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -39,7 +43,7 @@ public class UserDAO {
     // READ - by mail
     public UserDO findByMail(String mail) throws SQLException {
         String sql = "SELECT * FROM User WHERE mail = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement stmt = Db.connection.prepareStatement(sql)) {
             stmt.setString(1, mail);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -53,7 +57,7 @@ public class UserDAO {
     // READ - by name_tag
     public UserDO findByNameTag(String nameTag) throws SQLException {
         String sql = "SELECT * FROM User WHERE name_tag = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement stmt = Db.connection.prepareStatement(sql)) {
             stmt.setString(1, nameTag);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -68,7 +72,7 @@ public class UserDAO {
     public List<UserDO> findAll() throws SQLException {
         String sql = "SELECT * FROM User";
         List<UserDO> users = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(sql);
+        try (PreparedStatement stmt = Db.connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 users.add(mapRow(rs));
@@ -80,7 +84,7 @@ public class UserDAO {
     // UPDATE
     public boolean update(UserDO user) throws SQLException {
         String sql = "UPDATE User SET name_tag = ?, name = ?, mail = ?, pass = ? WHERE id_U = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement stmt = Db.connection.prepareStatement(sql)) {
             stmt.setString(1, user.getNameTag());
             stmt.setString(2, user.getName());
             stmt.setString(3, user.getMail());
@@ -93,13 +97,12 @@ public class UserDAO {
     // DELETE
     public boolean delete(int idU) throws SQLException {
         String sql = "DELETE FROM User WHERE id_U = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement stmt = Db.connection.prepareStatement(sql)) {
             stmt.setInt(1, idU);
             return stmt.executeUpdate() > 0;
         }
     }
 
-    // Helper: map ResultSet row to UserDO
     private UserDO mapRow(ResultSet rs) throws SQLException {
         return new UserDO(
                 rs.getInt("id_U"),

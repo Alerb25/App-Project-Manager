@@ -1,3 +1,4 @@
+package com.daw_project.Model;
 public class UserDO {
 
     private int idU;

@@ -10,7 +10,8 @@ public class Db {
     public static Connection connection;
 
     // Usamos un bloque static para que la conexión se cree en cuanto se use la clase
-    static {
+
+    public static void conectar() {
         try {
             Dotenv dotenv = Dotenv.load();
 
