@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.daw.app.utils.Db;
+import com.daw_project.utils.Db;
 
 public class CrudDAO {
 
@@ -61,14 +61,7 @@ public class CrudDAO {
             // Ejecutamos y guardamos los datos en un resultset
             rs = stmt.executeQuery();
 
-            // Ejemplo de crear un único registro, actor
-            /*
-             * Map actor = new HashMap<String,Object>();
-             * actor.put("id",3);
-             * actor.put("nombre","Juan José");
-             * actor.put("nacionalidad", "Frances");
-             * actor.put("fecha_nac",LocalDate.now().minusYears(18));
-             */
+          
             registro = new HashMap<String, Object>();
             for (String campo : campos) {
                 registro.put(campo, rs.getObject(campo));

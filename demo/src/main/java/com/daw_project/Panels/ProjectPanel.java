@@ -1,4 +1,4 @@
-package com.daw_project.Panels;
+package Panels;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
