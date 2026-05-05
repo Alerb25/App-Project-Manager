@@ -1,12 +1,10 @@
-package Panels;
+package com.daw_project.Panels;
 
-import java.lang.classfile.Label;
 import java.util.ArrayList;
-
+import com.daw_project.Model.ProjectDO;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-
 
 public class ProjectPanel extends GridPane {
     // Inicializamos los labels para que no sean null
@@ -22,9 +20,9 @@ public class ProjectPanel extends GridPane {
     public Slider sldDif = new Slider(1, 100, 50);
     public TextArea txtDesc = new TextArea();
     public TextField txtUrl = new TextField();
-    public CheckBox cb = new CheckBox("¿Está actualizado?"); // Corregido el nombre de la clase
+    public CheckBox cb = new CheckBox("¿Está actualizado?"); 
 
-    public  ArrayList<Proyecto> proyectos = new ArrayList<Proyecto>();
+    public ArrayList<ProjectDO> proyectos = new ArrayList();
     public Button btnReset = new Button("Reset");
     public Button btnGuardar = new Button("Guardar");
 
@@ -37,11 +35,11 @@ public class ProjectPanel extends GridPane {
         // Configurar ComboBox
         cmbTheme.getItems().addAll("Organización", "Juegos", "Lectura", "Escritura", "Otros");
 
-        //para que se vea la dificultad
+        // para que se vea la dificultad
         sldDif.setOnMouseDragged(e -> {
             lblDif.setText("Dificultad: " + (int) sldDif.getValue());
         });
-        
+
         // Configurar TextArea
         txtDesc.setPrefWidth(200);
         txtDesc.setPrefHeight(100);
@@ -75,17 +73,27 @@ public class ProjectPanel extends GridPane {
         this.sldDif.setValue(50);
         this.txtUrl.clear();
         this.cb.setSelected(false);
-        
+
     }
 
-    private int guardar() {
-       
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Funciona!");
-        alert.setContentText("El proyecto se ha guardado correctamente");
-        alert.showAndWait();
-        Proyecto p = new Proyecto(this.txtTitle.getValue(), this.txtDesc.getValue(), this.txtUrl.getValue());
+    private void guardar() {
+
+        ProjectDO p = new ProjectDO(
+                0,
+                txtTitle.getText(),
+                txtDesc.getText(),
+                txtUrl.getText(),
+                (int) sldDif.getValue(),
+                cmbTheme.getValue(),
+                cb.isSelected());
         proyectos.add(p);
-        return 1;
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("¡Guardado!");
+        alert.setContentText("El proyecto \"" + p.getTitle() + "\" se ha guardado correctamente.");
+        alert.showAndWait();
+
+        reset();
+
     }
 }

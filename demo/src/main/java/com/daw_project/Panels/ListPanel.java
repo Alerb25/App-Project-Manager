@@ -1,25 +1,27 @@
-package main.java.com.daw_project.Panels;
+package main.java.com.daw_project.Panels;  
 
-
-import java.util.ArrayList;
+import com.daw_project.Model.ProjectDO;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import java.util.ArrayList;
 
 public class ListPanel extends VBox {
 
     private ListView<String> listView = new ListView<>();
-    private Button btnRefresh = new Button("🔄 Refrescar");
-    private Label lblInfo = new Label("Selecciona un proyecto para ver detalles");
+    private Button btnRefresh = new Button("Refrescar");
+    private Label lblInfo = new Label("Total: 0 proyectos");
 
-    // Área de detalle
     private Label lblTitleVal = new Label("-");
     private Label lblDescVal = new Label("-");
     private Label lblUrlVal = new Label("-");
+    private Label lblDifVal = new Label("-");
+    private Label lblThemeVal = new Label("-");
+    private Label lblUpdatedVal = new Label("-");
 
-    private ArrayList<Proyecto> proyectos;
+    private ArrayList<ProjectDO> proyectos;
 
-    public ListPanel(ArrayList<Proyecto> proyectos) {
+    public ListPanel(ArrayList<ProjectDO> proyectos) {
         this.proyectos = proyectos;
 
         this.setPadding(new Insets(15));
@@ -30,36 +32,37 @@ public class ListPanel extends VBox {
         detalle.setHgap(10);
         detalle.setVgap(6);
         detalle.setPadding(new Insets(10));
-        detalle.add(new Label("Título:"), 0, 0);
-        detalle.add(lblTitleVal, 1, 0);
-        detalle.add(new Label("Descripción:"), 0, 1);
-        detalle.add(lblDescVal, 1, 1);
-        detalle.add(new Label("URL:"), 0, 2);
-        detalle.add(lblUrlVal, 1, 2);
+        detalle.add(new Label("Título:"), 0, 0);      detalle.add(lblTitleVal, 1, 0);
+        detalle.add(new Label("Descripción:"), 0, 1); detalle.add(lblDescVal, 1, 1);
+        detalle.add(new Label("URL:"), 0, 2);         detalle.add(lblUrlVal, 1, 2);
+        detalle.add(new Label("Dificultad:"), 0, 3);  detalle.add(lblDifVal, 1, 3);
+        detalle.add(new Label("Tema:"), 0, 4);        detalle.add(lblThemeVal, 1, 4);
+        detalle.add(new Label("Actualizado:"), 0, 5); detalle.add(lblUpdatedVal, 1, 5);
 
-        // Evento: al seleccionar un proyecto de la lista, muestra el detalle
+        // Al seleccionar un item muestra su detalle
         listView.getSelectionModel().selectedIndexProperty().addListener((obs, oldVal, newVal) -> {
             int idx = newVal.intValue();
             if (idx >= 0 && idx < this.proyectos.size()) {
-                Proyecto p = this.proyectos.get(idx);
-                lblTitleVal.setText(p.getTitulo());
-                lblDescVal.setText(p.getDescripcion());
+                ProjectDO p = this.proyectos.get(idx);
+                lblTitleVal.setText(p.getTitle());
+                lblDescVal.setText(p.getDescr());
                 lblUrlVal.setText(p.getUrl());
+                lblDifVal.setText(String.valueOf(p.getDif()));
+                lblThemeVal.setText(p.getTheme());
+                lblUpdatedVal.setText(p.getUpdated() ? "Sí" : "No");
             }
         });
 
-        // Evento: refrescar la lista
         btnRefresh.setOnAction(e -> cargarLista());
 
         this.getChildren().addAll(lblInfo, listView, btnRefresh, new Separator(), detalle);
-
         cargarLista();
     }
 
     public void cargarLista() {
         listView.getItems().clear();
-        for (Proyecto p : proyectos) {
-            listView.getItems().add(p.getTitulo());
+        for (ProjectDO p : proyectos) {
+            listView.getItems().add(p.getTitle());
         }
         lblInfo.setText("Total: " + proyectos.size() + " proyectos");
     }

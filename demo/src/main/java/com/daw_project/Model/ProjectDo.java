@@ -5,6 +5,9 @@ public class ProjectDO {
     private String title;
     private String descr;
     private String url;
+    private int dif;
+    private String theme;
+    private boolean updated;
 
     public ProjectDO() {}
 
@@ -33,8 +36,9 @@ public class ProjectDO {
     public void setDescr(String descr) { this.descr = descr; }
     public void setUrl(String url) { this.url = url; }
     public void setDif(int dif) { this.dif = dif; }
-    public String setTheme(String theme) { this.theme = theme; }
-    public Boolean setUpdated(Boolean updated) { this.updated = updated; }
+    public void setTheme(String theme) { this.theme = theme; }
+    public void setUpdated(Boolean updated) { this.updated = updated; }
+    
     @Override
     public String toString() {
         return "ProjectDO{" +

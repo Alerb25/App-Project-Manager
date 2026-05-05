@@ -1,9 +1,10 @@
 com\daw_project\App.class
 module-info.class
-Panels\ProjectPanel.class
 com\daw_project\Model\PermissionDO.class
 com\daw_project\Model\ProjectDO.class
 com\daw_project\Model\PermissionDAO.class
+com\daw_project\Panels\ListPanel.class
+com\daw_project\Panels\ProjectPanel.class
 com\daw_project\Model\UserDO.class
 com\daw_project\Model\ProjectDAO.class
 com\daw_project\Model\CrudDAO.class

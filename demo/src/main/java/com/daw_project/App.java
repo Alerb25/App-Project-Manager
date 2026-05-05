@@ -1,12 +1,12 @@
 package com.daw_project;
 
-import Panels.ProjectPanel;
+import com.daw_project.Panels.ListPanel;
+import com.daw_project.Panels.ProjectPanel;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import main.java.com.daw_project.Panels.ListPanel;
 
 /**
  * JavaFX App
@@ -18,11 +18,10 @@ public class App extends Application {
         ProjectPanel pMain = new ProjectPanel();
         BorderPane pPrincipal = new BorderPane();
         TabPane tPane = new TabPane();
-        ListPanel lPanel = new ListPanel();
+        ListPanel lPanel = new ListPanel(pMain.proyectos);
 
         Tab tProyecto = new Tab("Crear Proyecto");
         Tab tFicheros = new Tab("Listar Proyectos");
-        
 
         tProyecto.setClosable(false);
         tFicheros.setClosable(false);
@@ -31,10 +30,17 @@ public class App extends Application {
         // Metemos el ProjectPanel en la primera pestaña
         tProyecto.setContent(pMain);
 
-        //añadimos el segundo panel de de Listar Proyectos
+        // añadimos el segundo panel de de Listar Proyectos
         tFicheros.setContent(lPanel);
 
-        //MENUS
+        //para refrescar automáticamente el listado
+        tPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
+            if (newTab == tFicheros) {
+                lPanel.cargarLista();
+            }
+        });
+
+        // MENUS
         MenuBar mbPrincipal = new MenuBar();
         // Menus
         Menu mArchivo = new Menu("Archivo");
@@ -57,8 +63,8 @@ public class App extends Application {
         // Cargamos en la barra de menus lso menus
         mbPrincipal.getMenus().addAll(mArchivo, mBD, mOpciones, mAyuda);
 
-        //EVENTOS
-                miSalir.setOnAction(e -> {
+        // EVENTOS
+        miSalir.setOnAction(e -> {
             stage.close();
         });
 
@@ -74,7 +80,6 @@ public class App extends Application {
         // Ponemos en la parte superior del borderpane el menu
         pPrincipal.setTop(mbPrincipal);
 
-        
         var scene = new Scene(pPrincipal, 420, 380);
         stage.setScene(scene);
         stage.show();
