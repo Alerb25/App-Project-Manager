@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import main.java.com.daw_project.Panels.ListPanel;
 
 /**
  * JavaFX App
@@ -17,9 +18,10 @@ public class App extends Application {
         ProjectPanel pMain = new ProjectPanel();
         BorderPane pPrincipal = new BorderPane();
         TabPane tPane = new TabPane();
+        ListPanel lPanel = new ListPanel();
 
         Tab tProyecto = new Tab("Crear Proyecto");
-        Tab tFicheros = new Tab("Abrir Fichero");
+        Tab tFicheros = new Tab("Listar Proyectos");
         
 
         tProyecto.setClosable(false);
@@ -28,6 +30,9 @@ public class App extends Application {
 
         // Metemos el ProjectPanel en la primera pestaña
         tProyecto.setContent(pMain);
+
+        //añadimos el segundo panel de de Listar Proyectos
+        tFicheros.setContent(lPanel);
 
         //MENUS
         MenuBar mbPrincipal = new MenuBar();

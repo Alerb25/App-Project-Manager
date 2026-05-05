@@ -1,8 +1,12 @@
 package Panels;
 
+import java.lang.classfile.Label;
+import java.util.ArrayList;
+
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+
 
 public class ProjectPanel extends GridPane {
     // Inicializamos los labels para que no sean null
@@ -20,6 +24,7 @@ public class ProjectPanel extends GridPane {
     public TextField txtUrl = new TextField();
     public CheckBox cb = new CheckBox("¿Está actualizado?"); // Corregido el nombre de la clase
 
+    public  ArrayList<Proyecto> proyectos = new ArrayList<Proyecto>();
     public Button btnReset = new Button("Reset");
     public Button btnGuardar = new Button("Guardar");
 
@@ -74,7 +79,13 @@ public class ProjectPanel extends GridPane {
     }
 
     private int guardar() {
-        
+       
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Funciona!");
+        alert.setContentText("El proyecto se ha guardado correctamente");
+        alert.showAndWait();
+        Proyecto p = new Proyecto(this.txtTitle.getValue(), this.txtDesc.getValue(), this.txtUrl.getValue());
+        proyectos.add(p);
         return 1;
     }
 }

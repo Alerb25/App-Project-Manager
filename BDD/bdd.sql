@@ -10,6 +10,9 @@ CREATE TABLE Project(
     title VARCHAR(50) NOT NULL,
     descr VARCHAR(100) NOT NULL,
     url VARCHAR(100) NOT NULL,
+    dif INT NOT NULL,
+    theme VARCHAR(50) NOT NULL,
+    updated boolean NOT NULL
 );
 
 --User

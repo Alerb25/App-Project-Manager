@@ -13,11 +13,14 @@ public class ProjectDAO {
 
     // CREATE
     public boolean insert(ProjectDO project) throws SQLException {
-        String sql = "INSERT INTO Project (title, descr, url) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Project (title, descr, url, dif, theme, updated) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = Db.connection.prepareStatement(sql)) {
             stmt.setString(1, project.getTitle());
             stmt.setString(2, project.getDescr());
             stmt.setString(3, project.getUrl());
+            stmt.setInt(4, project.getDif());
+            stmt.setString(5, project.getTheme());
+            stmt.setBoolean(6, project.getUpdated());
             return stmt.executeUpdate() > 0;
         }
     }
@@ -51,12 +54,15 @@ public class ProjectDAO {
 
     // UPDATE
     public boolean update(ProjectDO project) throws SQLException {
-        String sql = "UPDATE Project SET title = ?, descr = ?, url = ? WHERE id_Pro = ?";
+        String sql = "UPDATE Project SET title = ?, descr = ?, url = ?, dif = ?, theme = ?, updated = ?, WHERE id_Pro = ?";
         try (PreparedStatement stmt = Db.connection.prepareStatement(sql)) {
             stmt.setString(1, project.getTitle());
             stmt.setString(2, project.getDescr());
             stmt.setString(3, project.getUrl());
-            stmt.setInt(4, project.getIdPro());
+            stmt.setInt(4, project.getDif());
+            stmt.setString(5, project.getTheme());
+            stmt.setBoolean(6, project.getUpdated());
+            stmt.setInt(7, project.getIdPro());            
             return stmt.executeUpdate() > 0;
         }
     }
@@ -75,7 +81,11 @@ public class ProjectDAO {
                 rs.getInt("id_Pro"),
                 rs.getString("title"),
                 rs.getString("descr"),
-                rs.getString("url")
+                rs.getString("url"),
+                rs.getInt("dif"),
+                rs.getString("theme"),
+                rs.getBoolean("updated")
+
         );
     }
 }
