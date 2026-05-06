@@ -1,6 +1,6 @@
 --Base de Datos project-Manager
-CREATE DATABASE proyecto-PM;
-USE proyecto-PM;
+CREATE DATABASE proyectoPM;
+USE proyectoPM;
 
 --Tablas
 

@@ -2,6 +2,8 @@ package com.daw_project;
 
 import com.daw_project.Panels.ListPanel;
 import com.daw_project.Panels.ProjectPanel;
+import com.daw_project.utils.Db;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,6 +17,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
+        Db.conectar();
+
         ProjectPanel pMain = new ProjectPanel();
         BorderPane pPrincipal = new BorderPane();
         TabPane tPane = new TabPane();
