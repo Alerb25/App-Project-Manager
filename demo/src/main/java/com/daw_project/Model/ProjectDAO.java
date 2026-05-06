@@ -40,7 +40,7 @@ public class ProjectDAO {
     }
 
     // READ - all
-    public List<ProjectDO> findAll() throws SQLException {
+    public List<ProjectDO> listar() throws SQLException {
         String sql = "SELECT * FROM Project";
         List<ProjectDO> projects = new ArrayList<>();
         try (PreparedStatement stmt = Db.connection.prepareStatement(sql);
