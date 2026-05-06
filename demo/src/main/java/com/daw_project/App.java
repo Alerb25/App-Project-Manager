@@ -22,7 +22,7 @@ public class App extends Application {
         ProjectPanel pMain = new ProjectPanel();
         BorderPane pPrincipal = new BorderPane();
         TabPane tPane = new TabPane();
-        ListPanel lPanel = new ListPanel(pMain.proyectos);
+        ListPanel lPanel = new ListPanel();
 
         Tab tProyecto = new Tab("Crear Proyecto");
         Tab tFicheros = new Tab("Listar Proyectos");

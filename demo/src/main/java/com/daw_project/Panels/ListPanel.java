@@ -1,9 +1,13 @@
 package com.daw_project.Panels;
+
 import com.daw_project.Model.ProjectDO;
+import com.daw_project.Model.ProjectDAO;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListPanel extends VBox {
 
@@ -18,11 +22,10 @@ public class ListPanel extends VBox {
     private Label lblThemeVal = new Label("-");
     private Label lblUpdatedVal = new Label("-");
 
-    private ArrayList<ProjectDO> proyectos;
+    private List<ProjectDO> proyectos = new ArrayList<>(); 
+    private ProjectDAO projectDAO = new ProjectDAO();      
 
-    public ListPanel(ArrayList<ProjectDO> proyectos) {
-        this.proyectos = proyectos;
-
+    public ListPanel() {
         this.setPadding(new Insets(15));
         this.setSpacing(10);
 
@@ -59,10 +62,19 @@ public class ListPanel extends VBox {
     }
 
     public void cargarLista() {
-        listView.getItems().clear();
-        for (ProjectDO p : proyectos) {
-            listView.getItems().add(p.getTitle());
+        try {
+            proyectos = projectDAO.listar(); // SELECT * FROM Project
+
+            listView.getItems().clear();
+            for (ProjectDO p : proyectos) {
+                listView.getItems().add(p.getTitle());
+            }
+
+            lblInfo.setText("Total: " + proyectos.size() + " proyectos");
+
+        } catch (SQLException e) {
+            lblInfo.setText("Error al cargar proyectos");
+            e.printStackTrace();
         }
-        lblInfo.setText("Total: " + proyectos.size() + " proyectos");
     }
 }
