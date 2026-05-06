@@ -1,11 +1,9 @@
 package com.daw_project.Panels;
 
 
-import java.lang.classfile.Label;
 import java.util.ArrayList;
-
-import com.daw_project.Model.ProjectDAO;
 import com.daw_project.Model.ProjectDO;
+import com.daw_project.Model.ProjectDAO;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -82,7 +80,7 @@ public class ProjectPanel extends GridPane {
 
     private void guardar() {
 
-        // Validación básica
+         // Validación básica
     if (txtTitle.getText().isBlank()) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Campo requerido");
@@ -101,7 +99,7 @@ public class ProjectPanel extends GridPane {
             cb.isSelected());
 
     try {
-        ProjectDAO dao = new ProjectDAO(); 
+        ProjectDAO dao = new ProjectDAO();  
         boolean ok = dao.insert(p);        
 
         if (ok) {
@@ -123,7 +121,6 @@ public class ProjectPanel extends GridPane {
         alert.setContentText("Error: " + e.getMessage());
         alert.showAndWait();
     }
-
         reset();
 
     }

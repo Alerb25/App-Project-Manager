@@ -7,7 +7,8 @@ import com.daw_project.utils.Db; // Importamos tu clase de conexión
 
 public class UserDAO {
 
-   
+    
+
     // CREATE
     public boolean insert(UserDO user) throws SQLException {
         String sql = "INSERT INTO User (name_tag, name, mail, pass) VALUES (?, ?, ?, ?)";

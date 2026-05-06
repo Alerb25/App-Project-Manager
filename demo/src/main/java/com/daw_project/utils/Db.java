@@ -16,7 +16,7 @@ public class Db {
     .directory(System.getProperty("user.dir"))
     .filename(".env")
     .load();
-            System.out.println("YESS .env cargado");
+            System.out.println("YES .env cargado");
 
             String host = dotenv.get("DB_HOST");
             String port = dotenv.get("DB_PORT");
@@ -29,13 +29,13 @@ public class Db {
 
             String url = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
             connection = DriverManager.getConnection(url, user, password);
-            System.out.println("YESS Conexión establecida");
+            System.out.println("YES Conexión establecida");
 
         } catch (SQLException e) {
-            System.err.println("NOO :c Error SQL: " + e.getMessage());
+            System.err.println("NO Error SQL: " + e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("NOO :c Error general: " + e.getMessage());
+            System.err.println("NO Error general: " + e.getMessage());
             e.printStackTrace();
         }
     }
