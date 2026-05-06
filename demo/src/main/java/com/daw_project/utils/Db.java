@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Db {
-    // Esta es la variable que tus DAO están buscando
+    
     public static Connection connection;
 
     // Usamos un bloque static para que la conexión se cree en cuanto se use la clase
