@@ -1,7 +1,10 @@
 package com.daw_project.Panels;
 
 
+import java.lang.classfile.Label;
 import java.util.ArrayList;
+
+import com.daw_project.Model.ProjectDAO;
 import com.daw_project.Model.ProjectDO;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -79,20 +82,47 @@ public class ProjectPanel extends GridPane {
 
     private void guardar() {
 
-        ProjectDO p = new ProjectDO(
-                0,
-                txtTitle.getText(),
-                txtDesc.getText(),
-                txtUrl.getText(),
-                (int) sldDif.getValue(),
-                cmbTheme.getValue(),
-                cb.isSelected());
-        proyectos.add(p);
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("¡Guardado!");
-        alert.setContentText("El proyecto \"" + p.getTitle() + "\" se ha guardado correctamente.");
+        // Validación básica
+    if (txtTitle.getText().isBlank()) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Campo requerido");
+        alert.setContentText("El título no puede estar vacío.");
         alert.showAndWait();
+        return;
+    }
+
+    ProjectDO p = new ProjectDO(
+            0,
+            txtTitle.getText(),
+            txtDesc.getText(),
+            txtUrl.getText(),
+            (int) sldDif.getValue(),
+            cmbTheme.getValue(),
+            cb.isSelected());
+
+    try {
+        ProjectDAO dao = new ProjectDAO();  // ✅ instanciar, no llamar estático
+        boolean ok = dao.insert(p);        // ✅ sintaxis correcta
+
+        if (ok) {
+            proyectos.add(p);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("¡Guardado!");
+            alert.setContentText("El proyecto \"" + p.getTitle() + "\" se ha guardado correctamente.");
+            alert.showAndWait();
+            reset();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("No se pudo guardar el proyecto.");
+            alert.showAndWait();
+        }
+    } catch (Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error de base de datos");
+        alert.setContentText("Error: " + e.getMessage());
+        alert.showAndWait();
+    }
 
         reset();
 
