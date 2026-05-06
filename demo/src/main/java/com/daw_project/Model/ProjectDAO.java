@@ -7,10 +7,7 @@ import com.daw_project.utils.Db;
 
 public class ProjectDAO {
 
-    public ProjectDAO() {
-        Db.conectar();
-    }
-
+    
     // CREATE
     public boolean insert(ProjectDO project) throws SQLException {
         String sql = "INSERT INTO Project (title, descr, url, dif, theme, updated) VALUES (?, ?, ?, ?, ?, ?)";

@@ -27,10 +27,12 @@ public class Db {
             connection = DriverManager.getConnection(url, user, password);
             System.out.println("Conexión establecida con éxito.");
 
+
         } catch (SQLException e) {
             System.err.println("Error al conectar a la base de datos: " + e.getMessage());
         } catch (Exception e) {
             System.err.println("Error cargando el fichero .env: " + e.getMessage());
         }
+        
     }
 }

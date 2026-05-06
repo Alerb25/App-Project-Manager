@@ -7,9 +7,7 @@ import com.daw_project.utils.Db;
 
 public class PermissionDAO {
 
-    public PermissionDAO() {
-        Db.conectar();
-    }
+   
 
     // CREATE
     public boolean insert(PermissionDO permission) throws SQLException {

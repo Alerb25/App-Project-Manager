@@ -7,11 +7,7 @@ import com.daw_project.utils.Db; // Importamos tu clase de conexión
 
 public class UserDAO {
 
-    // 1. Eliminamos el constructor que causaba el error de 'void'
-    public UserDAO() {
-        Db.conectar(); // Solo aseguramos que la conexión esté activa
-    }
-
+   
     // CREATE
     public boolean insert(UserDO user) throws SQLException {
         String sql = "INSERT INTO User (name_tag, name, mail, pass) VALUES (?, ?, ?, ?)";
