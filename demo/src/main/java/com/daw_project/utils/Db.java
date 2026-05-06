@@ -6,14 +6,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Db {
-    
     public static Connection connection;
 
-    // Usamos un bloque static para que la conexión se cree en cuanto se use la clase
-
     public static void conectar() {
+        System.out.println("Directorio de trabajo: " + System.getProperty("user.dir"));
+
         try {
-            Dotenv dotenv = Dotenv.load();
+           Dotenv dotenv = Dotenv.configure()
+    .directory(System.getProperty("user.dir"))
+    .filename(".env")
+    .load();
+            System.out.println("YESS .env cargado");
 
             String host = dotenv.get("DB_HOST");
             String port = dotenv.get("DB_PORT");
@@ -21,18 +24,19 @@ public class Db {
             String user = dotenv.get("DB_USER");
             String password = dotenv.get("DB_PASSWORD");
 
+            System.out.println("URL: jdbc:mysql://" + host + ":" + port + "/" + dbName);
+            System.out.println("User: " + user);
+
             String url = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
-
-            // Intentamos establecer la conexión
             connection = DriverManager.getConnection(url, user, password);
-            System.out.println("Conexión establecida con éxito.");
-
+            System.out.println("YESS Conexión establecida");
 
         } catch (SQLException e) {
-            System.err.println("Error al conectar a la base de datos: " + e.getMessage());
+            System.err.println("NOO :c Error SQL: " + e.getMessage());
+            e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("Error cargando el fichero .env: " + e.getMessage());
+            System.err.println("NOO :c Error general: " + e.getMessage());
+            e.printStackTrace();
         }
-        
     }
 }

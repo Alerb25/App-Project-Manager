@@ -101,8 +101,8 @@ public class ProjectPanel extends GridPane {
             cb.isSelected());
 
     try {
-        ProjectDAO dao = new ProjectDAO();  // ✅ instanciar, no llamar estático
-        boolean ok = dao.insert(p);        // ✅ sintaxis correcta
+        ProjectDAO dao = new ProjectDAO(); 
+        boolean ok = dao.insert(p);        
 
         if (ok) {
             proyectos.add(p);
