@@ -40,7 +40,7 @@ public class App extends Application {
         //para refrescar automáticamente el listado
         tPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
             if (newTab == tFicheros) {
-                lPanel.cargarLista();
+                lPanel.cargarLista(); 
             }
         });
 
