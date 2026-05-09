@@ -73,19 +73,29 @@ public class App extends Application {
         //añadir dos eventos a los menu items para exportar e importar archivos
         miAbrir.setOnAction( e -> {
             //este será para importar los proyectos
-            //Para no cargar el fichero en memoria
-            StringBuilder sb = new StringBuilder();
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Seleccionar fichero de texto");
 
-            try (BufferedReader br = new BufferedReader(new FileReader("datos.txt"))) {
-                String linea;
-                while ((linea = br.readLine()) != null) {
-                    sb.append(linea).append("\n");
+
+            // Filtros de extension
+            fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("Ficheros de texto", "*.txt"),
+            new FileChooser.ExtensionFilter("CSV", "*.csv"),
+            new FileChooser.ExtensionFilter("Todos los ficheros", "*.*")
+            );
+        
+            File fichero = fileChooser.showOpenDialog(primaryStage);
+
+            if (fichero != null) {  // null si el usuario cancelo
+                try {
+                    String contenido = Files.readString(fichero.toPath());
+                    textArea.setText(contenido);
+                } catch (IOException ex) {
+                textArea.setText("Error al leer: " + ex.getMessage());
                 }
-                textArea.setText(sb.toString());
-            } catch (IOException e) {
-                textArea.setText("Error: " + e.getMessage());
-            }
-        } );
+                }
+
+        } );    
 
 
         miGuardar.setOnAction( e -> {

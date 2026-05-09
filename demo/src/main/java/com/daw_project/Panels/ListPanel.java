@@ -11,6 +11,8 @@ import java.util.List;
 
 public class ListPanel extends VBox {
 
+    //en este panel se muestra la lista de los proyectos Creados
+
     private ListView<String> listView = new ListView<>();
     private Button btnRefresh = new Button("Refrescar");
     private Label lblInfo = new Label("Total: 0 proyectos");
