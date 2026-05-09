@@ -67,6 +67,9 @@ public class App extends Application {
         mBD.getItems().add(mOperaciones);
         mOperaciones.getItems().addAll(miCrearProyecto, miBorrarProyecto);
 
+        
+    // EVENTOS
+
         //añadir dos eventos a los menu items para exportar e importar archivos
         miAbrir.setOnAction( e -> {
             //este será para importar los proyectos
@@ -85,14 +88,23 @@ public class App extends Application {
         } );
 
 
-        // EVENTOS
         miGuardar.setOnAction( e -> {
-            //este es para exportar a texto plano
-            try {
-                Files.writeString(Path.of("salida.txt"), textArea.getText());
-                mostrarInfo("Fichero guardado correctamente.");
-            } catch (IOException e) {
-                mostrarError("No se pudo guardar: " + e.getMessage());
+            //este es para exportar a texto plano .txt
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar como");
+            fileChooser.setInitialFileName("documento.txt");
+            fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Texto", "*.txt")
+            );
+
+            File fichero = fileChooser.showSaveDialog(primaryStage);
+
+            if (fichero != null) {
+                try {
+                    Files.writeString(fichero.toPath(), textArea.getText());
+                } catch (IOException ex) {
+                    System.err.println("Error al guardar: " + ex.getMessage());
+                }
             }
         });
 
