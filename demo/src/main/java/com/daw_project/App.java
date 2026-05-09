@@ -9,6 +9,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 
 /**
  * JavaFX App
@@ -54,7 +57,7 @@ public class App extends Application {
         Menu mOperaciones = new Menu("Operaciones");
         // MenuItems
         MenuItem miAbrir = new MenuItem("Abrir..");
-        MenuItem miGuardar = new MenuItem("Guardar..");
+        MenuItem miGuardar = new MenuItem("Guardar como..");
         MenuItem miSalir = new MenuItem("Cerrar..");
         SeparatorMenuItem separador = new SeparatorMenuItem();
 
@@ -64,17 +67,46 @@ public class App extends Application {
         mBD.getItems().add(mOperaciones);
         mOperaciones.getItems().addAll(miCrearProyecto, miBorrarProyecto);
 
+        //añadir dos eventos a los menu items para exportar e importar archivos
+        miAbrir.setOnAction( e -> {
+            //este será para importar los proyectos
+            //Para no cargar el fichero en memoria
+            StringBuilder sb = new StringBuilder();
+
+            try (BufferedReader br = new BufferedReader(new FileReader("datos.txt"))) {
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    sb.append(linea).append("\n");
+                }
+                textArea.setText(sb.toString());
+            } catch (IOException e) {
+                textArea.setText("Error: " + e.getMessage());
+            }
+        } );
+
+
+        // EVENTOS
+        miGuardar.setOnAction( e -> {
+            //este es para exportar a texto plano
+            try {
+                Files.writeString(Path.of("salida.txt"), textArea.getText());
+                mostrarInfo("Fichero guardado correctamente.");
+            } catch (IOException e) {
+                mostrarError("No se pudo guardar: " + e.getMessage());
+            }
+        });
+
         // Cargamos en la barra de menus lso menus
         mbPrincipal.getMenus().addAll(mArchivo, mBD, mOpciones, mAyuda);
 
-        // EVENTOS
+        
         miSalir.setOnAction(e -> {
             stage.close();
         });
 
         miCrearProyecto.setOnAction(e -> {
             // Seleccionamos la pestaña primer del panel
-            // Que es la de insertar pelicula
+            // Que es la de insertar proyectos
             tPane.getSelectionModel().select(tProyecto);
         });
 
