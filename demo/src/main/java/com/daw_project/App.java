@@ -88,8 +88,9 @@ public class App extends Application {
 
             if (fichero != null) {  // null si el usuario cancelo
                 try {
+                    // TODO el contenido tiene que ser separado por ; y crear un objeto
                     String contenido = Files.readString(fichero.toPath());
-                    textArea.setText(contenido);
+                    
                 } catch (IOException ex) {
                 textArea.setText("Error al leer: " + ex.getMessage());
                 }
