@@ -4,6 +4,7 @@ import com.daw_project.Panels.ListPanel;
 import com.daw_project.Panels.ProjectPanel;
 import com.daw_project.utils.Db;
 
+import javafx.scene.control.TextArea;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -95,7 +96,8 @@ public class App extends Application {
                     String contenido = Files.readString(fichero.toPath());
                     
                 } catch (Exception ex) {
-                textArea().setText("Error al leer: " + ex.getMessage());
+                TextArea textArea = new TextArea();
+                textArea.setText("Error al leer: " + ex.getMessage());
                 }
                 }
 
@@ -111,11 +113,12 @@ public class App extends Application {
                 new FileChooser.ExtensionFilter("Texto", "*.txt")
             );
 
-            File fichero = fileChooser.showSaveDialog(primaryStage);
+            File fichero = fileChooser.showSaveDialog();
 
             if (fichero != null) {
                 try {
-                    Files.writeString(fichero.toPath(), textArea.getText());
+                    Files files = new Files();
+                    files.writeString(fichero.toPath(), TextArea.getText());
                 } catch (Exception ex) {
                     System.err.println("Error al guardar: " + ex.getMessage());
                 }
