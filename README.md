@@ -29,7 +29,7 @@ La aplicación permite la gestión integral de una entidad (ajustable a cualquie
 - Api Externa Gemini 2.0
 
 ## Instalación y Ejecución
-1. Clonar el Repositorio "git clone https://github.com/TuUsuario/NombreDelRepo.git"
+1. Clonar el Repositorio "git clone https://github.com/Alerb25/App-Project-Manager.git"
 2. Configurar la Base de Datos, con el script que viene en la carpeta BDDy además crear un .env con los credenciales deseados
 3. Compilar y ejecutar "mvn clean javafx:run"
 
