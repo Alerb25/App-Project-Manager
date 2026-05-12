@@ -2,6 +2,7 @@ package com.daw_project;
 
 import com.daw_project.Model.ProjectDAO;
 import com.daw_project.Model.ProjectDO;
+import com.daw_project.Panels.FilePanel;
 import com.daw_project.Panels.ListPanel;
 import com.daw_project.Panels.ProjectPanel;
 import com.daw_project.Panels.botPanel;
@@ -32,16 +33,19 @@ public class App extends Application {
         BorderPane pPrincipal = new BorderPane();
         TabPane tPane = new TabPane();
         ListPanel lPanel = new ListPanel();
+        FilePanel fPanel = new FilePanel();
         botPanel bPanel = new botPanel();
 
         Tab tProyecto = new Tab("Crear Proyecto");
         Tab tFicheros = new Tab("Listar Proyectos");
+        Tab tFiles = new Tab("Importar archivo");
         Tab tChat = new Tab("ChatBot");
 
         tProyecto.setClosable(false);
         tFicheros.setClosable(false);
         tChat.setClosable(false);
-        tPane.getTabs().addAll(tProyecto, tFicheros, tChat);
+        tFiles.setClosable(false);
+        tPane.getTabs().addAll(tProyecto, tFicheros, tFiles, tChat);
 
         // Metemos el ProjectPanel en la primera pestaña
         tProyecto.setContent(pMain);
