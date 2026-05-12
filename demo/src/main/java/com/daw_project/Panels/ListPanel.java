@@ -5,7 +5,6 @@ import com.daw_project.Model.ProjectDAO;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +73,7 @@ public class ListPanel extends VBox {
 
             lblInfo.setText("Total: " + proyectos.size() + " proyectos");
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             lblInfo.setText("Error al cargar proyectos");
             e.printStackTrace();
         }

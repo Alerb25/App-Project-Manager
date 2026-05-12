@@ -89,7 +89,7 @@ public class App extends Application {
         miAbrir.setOnAction(e -> {
             // este será para importar los proyectos
             //llama a FilePanel
-            tPane.getSelectionModel().select(tFichero);
+            tPane.getSelectionModel().select(tFiles);
 
         });
 
@@ -101,7 +101,7 @@ public class App extends Application {
             fileChooser.getExtensionFilters().add(
                     new FileChooser.ExtensionFilter("Texto", "*.txt"));
 
-            File fichero = fileChooser.showSaveDialog(tFicheros.getScene().getWindow());
+            File fichero = fileChooser.showSaveDialog(stage.getScene().getWindow());
 
             if (fichero != null) {
                 try {
@@ -111,11 +111,11 @@ public class App extends Application {
 
                     for (ProjectDO p : lista) {
                         sb.append(p.getTitle()).append(";")
-                                .append(p.getDesc()).append(";")
+                                .append(p.getDescr()).append(";")
                                 .append(p.getUrl()).append(";")
-                                .append(p.getDificultad()).append(";")
-                                .append(p.getTema()).append(";")
-                                .append(p.isActualizado())
+                                .append(p.getDif()).append(";")
+                                .append(p.getTheme()).append(";")
+                                .append(p.getUpdated())
                                 .append("\n");
                     }
 

@@ -5,8 +5,8 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
+import javafx.scene.control.Label;
 import java.io.File;
-import java.lang.classfile.Label;
 import java.nio.file.Files;
 
 import com.daw_project.Model.ProjectDAO;
@@ -39,7 +39,7 @@ public class FilePanel extends BorderPane {
         lblRuta.setMaxWidth(Double.MAX_VALUE);
 
         topBar.getChildren().addAll(btnSeleccionar, btnLimpiar, lblRuta);
-        Button btnImportar = new Button("⬇ Importar proyectos");
+        Button btnImportar = new Button("Importar proyectos");
         btnImportar.setDisable(true); // deshabilitado hasta que haya fichero cargado
 
         // Habilitarlo cuando haya contenido
@@ -86,8 +86,7 @@ public class FilePanel extends BorderPane {
                         Integer.parseInt(partes[3].trim()),
                         partes[4].trim(),
                         Boolean.parseBoolean(partes[5].trim()));
-                if (dao.insert(p))
-                    importados++;
+                importados++;
             } catch (Exception ex) {
                 System.err.println("Línea inválida: " + linea);
             }

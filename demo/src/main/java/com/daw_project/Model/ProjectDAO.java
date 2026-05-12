@@ -39,7 +39,7 @@ public class ProjectDAO {
     public List<ProjectDO> listar() {
         List<ProjectDO> lista = new ArrayList<>();
         String sql = "SELECT * FROM proyectos";
-        try (PreparedStatement ps = Db.getConexion().prepareStatement(sql);
+        try (PreparedStatement ps = Db.connection.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 lista.add(new ProjectDO(
