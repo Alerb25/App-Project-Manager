@@ -53,6 +53,9 @@ public class App extends Application {
         // añadimos el segundo panel de de Listar Proyectos
         tFicheros.setContent(lPanel);
 
+        //añadimos el panel de importacion
+        tFiles.setContent(fPanel);
+
         // añadimos el tercer panel con el chatbot
         tChat.setContent(bPanel);
 
