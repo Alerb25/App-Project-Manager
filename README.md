@@ -6,18 +6,18 @@ Este proyecto es una aplicación de escritorio desarrollada en JavaFX que integr
 ## Características del Proyecto
 La aplicación permite la gestión integral de una entidad (ajustable a cualquier temática) a través de las siguientes funcionalidades clave:
 
-### Interfaz:
+### Interfaz (Prácticas 1 & 2):
  - Diseño con Layouts: Uso de BorderPane como raíz, GridPane para formularios y TabPane para la navegación por pestañas.
  - Controles Variados: Implementación de TextField, Slider, ComboBox, CheckBox y RadioButton.
  - Sistema de Menús: Barra de menú completa con opciones de Archivo (Nuevo, Salir), Ver (Listado) y Ayuda (Acerca de).
-### Persistencia y Datos
+### Persistencia y Datos (Prácticas 2 & 3):
 - Modelo de Objetos: Implementación del patrón DO (Data Object) en un paquete model.
 - Base de Datos MySQL/MariaDB: Integración del patrón DAO (Data Access Object) para realizar operaciones INSERT y SELECT de forma persistente.
 - Gestión de Errores: Control de excepciones SQLException con alertas visuales al usuario.
-### Intercambio de Información 
+### Intercambio de Información (Práctica 4):
 - Exportación: Guardado de datos en ficheros .txt mediante BufferedWriter y FileChooser.
 - Importación: Carga de datos desde archivos de texto plano, procesando líneas mediante split(";").
-### Integración con Api Externa
+### Integración con Api Externa (Práctica 5):
 - HttpClient: Realización de peticiones HTTP asíncronas a una API
 - Procesamiento JSON: Recepción y extracción de datos específicos desde respuestas JSON para su visualización y almacenamiento opcional en la BD.
 
