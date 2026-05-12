@@ -1,11 +1,12 @@
 package com.daw_project;
 
+import com.daw_project.Model.ProjectDAO;
+import com.daw_project.Model.ProjectDO;
 import com.daw_project.Panels.ListPanel;
 import com.daw_project.Panels.ProjectPanel;
 import com.daw_project.Panels.botPanel;
 import com.daw_project.utils.Db;
 
-import javafx.scene.control.TextArea;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,7 +17,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.nio.file.Files;
-
+import java.util.List;
 
 /**
  * JavaFX App
@@ -48,14 +49,13 @@ public class App extends Application {
         // añadimos el segundo panel de de Listar Proyectos
         tFicheros.setContent(lPanel);
 
-        //añadimos el tercer panel con el chatbot
+        // añadimos el tercer panel con el chatbot
         tChat.setContent(bPanel);
 
-
-        //para refrescar automáticamente el listado
+        // para refrescar automáticamente el listado
         tPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
             if (newTab == tFicheros) {
-                lPanel.cargarLista(); 
+                lPanel.cargarLista();
             }
         });
 
@@ -79,56 +79,107 @@ public class App extends Application {
         mBD.getItems().add(mOperaciones);
         mOperaciones.getItems().addAll(miCrearProyecto, miBorrarProyecto);
 
-        
-    // EVENTOS
+        // EVENTOS
 
-        //añadir dos eventos a los menu items para exportar e importar archivos
-        miAbrir.setOnAction( e -> {
-            //este será para importar los proyectos
+        // IMPORTAR Y EXPORTAR
+        miAbrir.setOnAction(e -> {
+            // este será para importar los proyectos
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Seleccionar fichero de texto");
 
-
             // Filtros de extension
             fileChooser.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("Ficheros de texto", "*.txt"),
-            new FileChooser.ExtensionFilter("CSV", "*.csv"),
-            new FileChooser.ExtensionFilter("Todos los ficheros", "*.*")
-            );
-        
+                    new FileChooser.ExtensionFilter("Ficheros de texto", "*.txt"),
+                    new FileChooser.ExtensionFilter("CSV", "*.csv"),
+                    new FileChooser.ExtensionFilter("Todos los ficheros", "*.*"));
+
             File fichero = fileChooser.showOpenDialog(tFicheros.getScene().getWindow());
 
-            if (fichero != null) {  // null si el usuario cancelo
+            if (fichero != null) { // null si el usuario cancelo
                 try {
-                    // TODO el contenido tiene que ser separado por ; y crear un objeto
                     String contenido = Files.readString(fichero.toPath());
-                    
+                    String[] lineas = contenido.split("\n");
+                    ProjectDAO dao = new ProjectDAO();
+                    int importados = 0;
+
+                    for (String linea : lineas) {
+                        linea = linea.trim();
+                        if (linea.isEmpty())
+                            continue;
+
+                        // Formato txt title;desc;url;dificultad;tema;actualizado
+                        String[] partes = linea.split(";");
+                        if (partes.length < 6)
+                            continue;
+
+                        ProjectDO p = new ProjectDO(
+                                0,
+                                partes[0].trim(), // title
+                                partes[1].trim(), // desc
+                                partes[2].trim(), // url
+                                Integer.parseInt(partes[3].trim()), // dificultad
+                                partes[4].trim(), // tema
+                                Boolean.parseBoolean(partes[5].trim()) // actualizado
+                        );
+
+                        if (dao.insert(p))
+                            importados++;
+                    }
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Importación completada");
+                    alert.setContentText("Se importaron " + importados + " proyecto(s) correctamente.");
+                    alert.showAndWait();
+                    lPanel.cargarLista();
+
                 } catch (Exception ex) {
-                TextArea textArea = new TextArea();
-                textArea.setText("Error al leer: " + ex.getMessage());
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error al importar");
+                    alert.setContentText("Error al leer el fichero: " + ex.getMessage());
+                    alert.showAndWait();
                 }
-                }
+            }
 
-        } );    
+        });
 
-
-        miGuardar.setOnAction( e -> {
-            //este es para exportar a texto plano .txt
+        miGuardar.setOnAction(e -> {
+            // este es para exportar a texto plano .txt
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Guardar como");
             fileChooser.setInitialFileName("documento.txt");
             fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Texto", "*.txt")
-            );
+                    new FileChooser.ExtensionFilter("Texto", "*.txt"));
 
-            File fichero = fileChooser.showSaveDialog();
+            File fichero = fileChooser.showSaveDialog(tFicheros.getScene().getWindow());
 
             if (fichero != null) {
                 try {
-                    Files files = new Files();
-                    files.writeString(fichero.toPath(), TextArea.getText());
+                    ProjectDAO dao = new ProjectDAO();
+                    List<ProjectDO> lista = dao.listar(); 
+                    StringBuilder sb = new StringBuilder();
+
+                    for (ProjectDO p : lista) {
+                        sb.append(p.getTitle()).append(";")
+                                .append(p.getDesc()).append(";")
+                                .append(p.getUrl()).append(";")
+                                .append(p.getDificultad()).append(";")
+                                .append(p.getTema()).append(";")
+                                .append(p.isActualizado())
+                                .append("\n");
+                    }
+
+                    Files.writeString(fichero.toPath(), sb.toString());
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Exportación completada");
+                    alert.setContentText("Proyectos exportados correctamente.");
+                    alert.showAndWait();
+
                 } catch (Exception ex) {
-                    System.err.println("Error al guardar: " + ex.getMessage());
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error al guardar");
+                    alert.setContentText("Error: " + ex.getMessage());
+                    alert.showAndWait();
                 }
             }
         });
@@ -136,7 +187,6 @@ public class App extends Application {
         // Cargamos en la barra de menus lso menus
         mbPrincipal.getMenus().addAll(mArchivo, mBD, mOpciones, mAyuda);
 
-        
         miSalir.setOnAction(e -> {
             stage.close();
         });

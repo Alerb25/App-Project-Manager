@@ -7,8 +7,6 @@ import com.daw_project.utils.Db;
 
 public class ProjectDAO {
 
-   
-
     // CREATE
     public boolean insert(ProjectDO project) throws SQLException {
         String sql = "INSERT INTO Project (title, descr, url, dif, theme, updated) VALUES (?, ?, ?, ?, ?, ?)";
@@ -38,16 +36,25 @@ public class ProjectDAO {
     }
 
     // READ - all
-    public List<ProjectDO> listar() throws SQLException {
-        String sql = "SELECT * FROM Project";
-        List<ProjectDO> projects = new ArrayList<>();
-        try (PreparedStatement stmt = Db.connection.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+    public List<ProjectDO> listar() {
+        List<ProjectDO> lista = new ArrayList<>();
+        String sql = "SELECT * FROM proyectos";
+        try (PreparedStatement ps = Db.getConexion().prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                projects.add(mapRow(rs));
+                lista.add(new ProjectDO(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("desc"),
+                        rs.getString("url"),
+                        rs.getInt("dificultad"),
+                        rs.getString("tema"),
+                        rs.getBoolean("actualizado")));
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return projects;
+        return lista;
     }
 
     // UPDATE
@@ -60,7 +67,7 @@ public class ProjectDAO {
             stmt.setInt(4, project.getDif());
             stmt.setString(5, project.getTheme());
             stmt.setBoolean(6, project.getUpdated());
-            stmt.setInt(7, project.getIdPro());            
+            stmt.setInt(7, project.getIdPro());
             return stmt.executeUpdate() > 0;
         }
     }
