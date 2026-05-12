@@ -5,7 +5,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
-import javafx.scene.control.Label;
+
 import java.io.File;
 import java.nio.file.Files;
 
@@ -19,6 +19,8 @@ public class FilePanel extends BorderPane {
     private Button btnSeleccionar = new Button("📂 Seleccionar fichero...");
     private Button btnLimpiar = new Button("Limpiar");
     private File ficheroActual = null;
+
+    // FORMATO title;desc;url;dificultad;tema;actualizado
 
     public FilePanel() {
         this.setPadding(new Insets(15));
