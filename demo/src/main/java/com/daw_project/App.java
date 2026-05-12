@@ -88,61 +88,8 @@ public class App extends Application {
         // IMPORTAR Y EXPORTAR
         miAbrir.setOnAction(e -> {
             // este será para importar los proyectos
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Seleccionar fichero de texto");
-
-            // Filtros de extension
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Ficheros de texto", "*.txt"),
-                    new FileChooser.ExtensionFilter("CSV", "*.csv"),
-                    new FileChooser.ExtensionFilter("Todos los ficheros", "*.*"));
-
-            File fichero = fileChooser.showOpenDialog(tFicheros.getScene().getWindow());
-
-            if (fichero != null) { // null si el usuario cancelo
-                try {
-                    String contenido = Files.readString(fichero.toPath());
-                    String[] lineas = contenido.split("\n");
-                    ProjectDAO dao = new ProjectDAO();
-                    int importados = 0;
-
-                    for (String linea : lineas) {
-                        linea = linea.trim();
-                        if (linea.isEmpty())
-                            continue;
-
-                        // Formato txt title;desc;url;dificultad;tema;actualizado
-                        String[] partes = linea.split(";");
-                        if (partes.length < 6)
-                            continue;
-
-                        ProjectDO p = new ProjectDO(
-                                0,
-                                partes[0].trim(), // title
-                                partes[1].trim(), // desc
-                                partes[2].trim(), // url
-                                Integer.parseInt(partes[3].trim()), // dificultad
-                                partes[4].trim(), // tema
-                                Boolean.parseBoolean(partes[5].trim()) // actualizado
-                        );
-
-                        if (dao.insert(p))
-                            importados++;
-                    }
-
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Importación completada");
-                    alert.setContentText("Se importaron " + importados + " proyecto(s) correctamente.");
-                    alert.showAndWait();
-                    lPanel.cargarLista();
-
-                } catch (Exception ex) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error al importar");
-                    alert.setContentText("Error al leer el fichero: " + ex.getMessage());
-                    alert.showAndWait();
-                }
-            }
+            //llama a FilePanel
+            tPane.getSelectionModel().select(tFichero);
 
         });
 
