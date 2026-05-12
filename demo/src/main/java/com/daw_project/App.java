@@ -8,9 +8,12 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
+import java.nio.file.Files;
 
 
 /**
@@ -84,15 +87,15 @@ public class App extends Application {
             new FileChooser.ExtensionFilter("Todos los ficheros", "*.*")
             );
         
-            File fichero = fileChooser.showOpenDialog(primaryStage);
+            File fichero = fileChooser.showOpenDialog(tFicheros.getScene().getWindow());
 
             if (fichero != null) {  // null si el usuario cancelo
                 try {
                     // TODO el contenido tiene que ser separado por ; y crear un objeto
                     String contenido = Files.readString(fichero.toPath());
                     
-                } catch (IOException ex) {
-                textArea.setText("Error al leer: " + ex.getMessage());
+                } catch (Exception ex) {
+                textArea().setText("Error al leer: " + ex.getMessage());
                 }
                 }
 
@@ -113,7 +116,7 @@ public class App extends Application {
             if (fichero != null) {
                 try {
                     Files.writeString(fichero.toPath(), textArea.getText());
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     System.err.println("Error al guardar: " + ex.getMessage());
                 }
             }

@@ -3,6 +3,7 @@ module com.daw_project {
     requires javafx.fxml;
     requires java.sql;
     requires io.github.cdimascio.dotenv.java;
+    requires javafx.graphics;
     
 
     opens com.daw_project to javafx.fxml;
