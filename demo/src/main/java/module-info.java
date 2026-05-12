@@ -4,6 +4,7 @@ module com.daw_project {
     requires java.sql;
     requires io.github.cdimascio.dotenv.java;
     requires javafx.graphics;
+    requires google.genai;
     
 
     opens com.daw_project to javafx.fxml;

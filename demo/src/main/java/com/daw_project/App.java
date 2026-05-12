@@ -2,6 +2,7 @@ package com.daw_project;
 
 import com.daw_project.Panels.ListPanel;
 import com.daw_project.Panels.ProjectPanel;
+import com.daw_project.Panels.botPanel;
 import com.daw_project.utils.Db;
 
 import javafx.scene.control.TextArea;
@@ -30,19 +31,26 @@ public class App extends Application {
         BorderPane pPrincipal = new BorderPane();
         TabPane tPane = new TabPane();
         ListPanel lPanel = new ListPanel();
+        botPanel bPanel = new botPanel();
 
         Tab tProyecto = new Tab("Crear Proyecto");
         Tab tFicheros = new Tab("Listar Proyectos");
+        Tab tChat = new Tab("ChatBot");
 
         tProyecto.setClosable(false);
         tFicheros.setClosable(false);
-        tPane.getTabs().addAll(tProyecto, tFicheros);
+        tChat.setClosable(false);
+        tPane.getTabs().addAll(tProyecto, tFicheros, tChat);
 
         // Metemos el ProjectPanel en la primera pestaña
         tProyecto.setContent(pMain);
 
         // añadimos el segundo panel de de Listar Proyectos
         tFicheros.setContent(lPanel);
+
+        //añadimos el tercer panel con el chatbot
+        tChat.setContent(bPanel);
+
 
         //para refrescar automáticamente el listado
         tPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
