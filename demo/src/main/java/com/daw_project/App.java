@@ -109,7 +109,7 @@ public class App extends Application {
             if (fichero != null) {
                 try {
                     ProjectDAO dao = new ProjectDAO();
-                    List<ProjectDO> lista = dao.listar(); 
+                    List<ProjectDO> lista = dao.getAll(); 
                     StringBuilder sb = new StringBuilder();
 
                     for (ProjectDO p : lista) {

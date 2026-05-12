@@ -7,7 +7,7 @@ import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.lang.classfile.Label;
+import javafx.scene.control.Label;
 import java.nio.file.Files;
 
 import com.daw_project.Model.ProjectDAO;
@@ -17,7 +17,7 @@ public class FilePanel extends BorderPane {
 
     private TextArea txtContenido = new TextArea();
     private Label lblRuta = new Label("Ningún fichero seleccionado");
-    private Button btnSeleccionar = new Button("📂 Seleccionar fichero...");
+    private Button btnSeleccionar = new Button("Seleccionar fichero...");
     private Button btnLimpiar = new Button("Limpiar");
     private File ficheroActual = null;
 
